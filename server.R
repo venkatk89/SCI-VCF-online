@@ -1171,7 +1171,8 @@ server <- function(input, output, session) {
       h6(icon("building-user"),
          "Docker",
          style = "fontweight:600"),
-      href = "https://hub.docker.com/repository/docker/venkatk89/sci-vcf/general"
+      href = "https://hub.docker.com/repository/docker/venkatk89/sci-vcf/general", 
+      target="_blank"
     )
   })
   
