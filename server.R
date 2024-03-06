@@ -1,5 +1,8 @@
-# RScript defining the backend server functions
-
+###
+# Code: R/server.R
+# Author: Venkatesh K
+# Function: Defines the backend server functions of SCI-VCF
+###
 server <- function(input, output, session) {
   
   #Contents for the About page
@@ -19,8 +22,7 @@ server <- function(input, output, session) {
       h6(icon("file"),
          "Sample 1",
          style = "fontweight:600"),
-      href = "https://github.com/HimanshuLab/SCI-VCF-docs/raw/main/sample_data/HG002_subset.vcf.gz", 
-      target="_blank"
+      href = "https://github.com/HimanshuLab/SCI-VCF-docs/raw/main/sample_data/HG002_subset.vcf.gz"
     )
   })
   
@@ -30,8 +32,7 @@ server <- function(input, output, session) {
       h6(icon("file"),
          "Sample 2",
          style = "fontweight:600"),
-      href = "https://github.com/HimanshuLab/SCI-VCF-docs/raw/main/sample_data/HG003_subset.vcf.gz", 
-      target="_blank"
+      href = "https://github.com/HimanshuLab/SCI-VCF-docs/raw/main/sample_data/HG003_subset.vcf.gz"
     )
   })
   
@@ -46,6 +47,17 @@ server <- function(input, output, session) {
                {updateNavbarPage(session, "navbar", selected = "Compare")}
   )
   
+  #Action for interface button in home page
+  observeEvent(input$open_interface, 
+               {updateNavbarPage(session, "navbar", selected = "Interface")}
+  )
+  
+  #Action for view_csv_files button in home page
+  observeEvent(input$open_view_csv, 
+               {updateNavbarPage(session, "navbar", selected = "View CSV Files")}
+  )
+  
+  
   #Action for user guide button in home page
   observeEvent(input$open_doc, 
                {updateNavbarPage(session, "navbar", selected = "Quick Guide")}
@@ -55,6 +67,7 @@ server <- function(input, output, session) {
   observeEvent(input$open_contact, 
                {updateNavbarPage(session, "navbar", selected = "Contact")}
   )
+  
   
   
   ################################################
@@ -92,8 +105,8 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_summarize <- renderText({"
   <i>
-    Note: By default, the upload size is limited to 10MB. To work with larger VCFs, please refer to the 
-    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -112,7 +125,7 @@ server <- function(input, output, session) {
   
   output$wait_message_2 <- renderText({
     req(vcf_summaries())
-    "<font color =\"#e2725b\"><i>
+    "<font color =\"#228b22\"><i>
     The VCF file is processed. All tabs are populated. Happy exploration!
     </i></font>"}
   )
@@ -131,8 +144,8 @@ server <- function(input, output, session) {
     paste("Number of contigs with variants: ", (length(colnames(vcf_summaries()[1][[1]])) -1))
   )
  
-  output$filter_column_entries <- renderText(
-    paste("FILTER column values: ", unlist(unique(vcf_data()@fix[,"FILTER"])))
+  output$no_metadata_lines <- renderText(
+    paste("Number of meta-information lines: ", length(vcf_data()@meta))
     )
   
   output$no_of_entries <- renderText(
@@ -161,7 +174,7 @@ server <- function(input, output, session) {
     req(vcf_summaries())
   "<font color =\"#e2725b\"><i>
     To change the default file processing settings, please refer to the 
-    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i></font>"}
   )
   
@@ -272,7 +285,7 @@ server <- function(input, output, session) {
       paste0(input$download_summary_filename, ".csv")
     },
     content = function(file) {
-      write.csv(sum_vcf_table(), file)
+      write.csv(sum_vcf_table(), file, row.names = FALSE)
     }
   )
   
@@ -282,7 +295,10 @@ server <- function(input, output, session) {
   # Print note for downloading summary statistics
   output$venkatesh_signing_off <- renderText({
     req(vcf_summaries())
-    "Have a great day!"
+    "<font color =\"#228b22\"><i>
+    Have a great day!
+    <br>
+    </i></font>"
     })
     
   # Add functionalities to next/previous buttons in summarize tab
@@ -419,7 +435,7 @@ server <- function(input, output, session) {
   
   output$wait_message_compare_2 <- renderText({
     req(vcf_comp_summary_both())
-    "<font color =\"#e2725b\"><i>
+    "<font color =\"#228b22\"><i>
     The VCF files are processed. All tabs are populated. Happy exploration!
     <br>
     </i></font>"}
@@ -428,8 +444,8 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_compare <- renderText({"
     <i>
-    Note: By default, the upload size for each file is limited to 10MB. To work with larger VCFs, please refer to the 
-    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    Note: By default, the upload size for each file is limited to 1GB. To work with larger VCFs, please refer to the 
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -501,7 +517,7 @@ server <- function(input, output, session) {
       paste0(input$download_summary_left_filename, ".csv")
     },
     content = function(file) {
-      write.csv(vcf_comp_summary_left(), file)
+      write.csv(vcf_comp_summary_left(), file, row.names = FALSE)
     }
   )
   
@@ -511,7 +527,7 @@ server <- function(input, output, session) {
       paste0(input$download_summary_right_filename, ".csv")
     },
     content = function(file) {
-      write.csv(vcf_comp_summary_right(), file)
+      write.csv(vcf_comp_summary_right(), file, row.names = FALSE)
     }
   )
   
@@ -521,7 +537,7 @@ server <- function(input, output, session) {
       paste0(input$download_summary_both_filename, ".csv")
     },
     content = function(file) {
-      write.csv(vcf_comp_summary_both(), file)
+      write.csv(vcf_comp_summary_both(), file, row.names = FALSE)
     }
   )
   
@@ -538,7 +554,7 @@ server <- function(input, output, session) {
       paste0(input$download_variants_left_filename, ".csv")
     },
     content = function(file) {
-      write.csv(comparison_result()[1][[1]], file)
+      write.csv(comparison_result()[1][[1]], file, row.names = FALSE)
     }
   )
   
@@ -548,7 +564,7 @@ server <- function(input, output, session) {
       paste0(input$download_variants_right_filename, ".csv")
     },
     content = function(file) {
-      write.csv(comparison_result()[2][[1]], file)
+      write.csv(comparison_result()[2][[1]], file, row.names = FALSE)
     }
   )
   
@@ -558,7 +574,7 @@ server <- function(input, output, session) {
       paste0(input$download_variants_left_and_right_filename, ".csv")
     },
     content = function(file) {
-      write.csv(comparison_result()[3][[1]], file)
+      write.csv(comparison_result()[3][[1]], file, row.names = FALSE)
     }
   )
   
@@ -568,13 +584,16 @@ server <- function(input, output, session) {
       paste0(input$download_variants_right_and_left_filename, ".csv")
     },
     content = function(file) {
-      write.csv(comparison_result()[4][[1]], file)
+      write.csv(comparison_result()[4][[1]], file, row.names = FALSE)
     }
   )
   
   output$venkatesh_signing_off_again <- renderText({
     req(vcf_comp_summary_both())
-    "Have a great day!"
+    "<font color =\"#228b22\"><i>
+    Have a great day!
+    <br>
+    </i></font>"
   })
   
   # Add functionalities to next/previous buttons in compare tab
@@ -634,15 +653,6 @@ server <- function(input, output, session) {
                {updateNavbarPage(session, "navbar", "Home")}
   )
   
-  # Add functionalities to next/previous buttons in contact tab
-  observeEvent(input$quick_guide_next, 
-               {updateNavbarPage(session, "navbar", "Home")}
-  )
-  
-  # Add functionalities to next/previous buttons in contact tab
-  observeEvent(input$contact_next, 
-               {updateNavbarPage(session, "navbar", "Home")}
-  )
   
   ################################
   
@@ -673,18 +683,425 @@ server <- function(input, output, session) {
     updateSelectInput(session, "variant_comp_set_dist_contig", choices = unique_contigs)
   })
   
+
+  
+  ###################################
+  
+  # Contents for the Interface page
+  
+  valid_input_file_interface <- reactiveVal()
+  
+  # Validate the input file as .vcf or .vcf.gz
+  observeEvent(req(input$upload_vcf_interface),
+               # check if last 4 characters of the filepath are ".vcf"
+               if(substr(input$upload_vcf_interface$name, start = nchar(input$upload_vcf_interface$name) - 3, stop = nchar(input$upload_vcf_interface$name)) == ".vcf"){
+                 valid_input_file_interface(TRUE)
+                 output$file_warning_message_interface <- renderText("<font color =\"#e2725b\"><i> </i></font>")
+               } 
+               # else check if last 7 characters are ".vcf.gz"
+               else if(substr(input$upload_vcf_interface$name, start = nchar(input$upload_vcf_interface$name) - 6, stop = nchar(input$upload_vcf_interface$name)) == ".vcf.gz"){
+                 valid_input_file_interface(TRUE)
+                 output$file_warning_message_interface <- renderText("<font color =\"#e2725b\"><i> </i></font>")
+               }
+               else{
+                 valid_input_file_interface(FALSE)
+                 output$file_warning_message_interface <- renderText("<font color =\"#e2725b\"><i> Invalid file uploaded. Only \".vcf\" and \".vcf.gz\" are permitted. </i></font>")
+               }
+  )
+  
+  # read the vcf file as a reactive object
+  vcf_data_interface <- reactive({
+    req(input$upload_vcf_interface, valid_input_file_interface())
+    # using vcfr library to read vcf files
+    read.vcfR(input$upload_vcf_interface$datapath)
+  })
+  
+  
+  # Give note about file upload size
+  output$upload_size_warning_interface <- renderText({"
+  <i>
+    Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    </i>"
+  })
+  
+  
+  # vcf_interface_table combines the FIX and GT of the object for downstream analysis
+  vcf_interface_table <- reactive({
+    req(vcf_data_interface())
+    view_variants(vcf_data_interface())
+  })
+  
+  # Print a user message once the uploaded VCF file is read
+  output$wait_message_interface <- renderText({
+    req(vcf_interface_table())
+    "<font color =\"#228b22\"><i>
+    The VCF file is processed. All tabs are populated. Happy exploration!
+    </i></font>"}
+  )
+  
+  
+  # Get formatted metadata as a reactable for viewing
+  output$vcf_interface_metadata <- renderReactable({
+    reactable(view_metadata(vcf_data_interface()@meta), 
+              searchable = TRUE,
+              sortable = FALSE,
+              pagination = FALSE,
+              height = 250,
+              bordered = FALSE,
+              striped = FALSE,
+              theme = reactableTheme(
+                borderColor = "#dfe2e5",
+                highlightColor = "#f0f5f9",
+                style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
+                searchInputStyle = list(width = "100%")
+              )
+    )})
+    
+  # download button for metadata extraction
+  output$download_interface_metadata <- downloadHandler(
+    filename = function() {
+      paste0(input$download_interface_metadata_filename, ".txt")
+    },
+    content = function(file) {
+      cat(vcf_data_interface()@meta, file = file)
+    }
+  )
+  
+  
+  
+  # sort variants based on CHROM, POS, REF, ALT and get sorted variants table
+  vcf_sorted_table <- reactive({
+    req(vcf_data_interface())
+    sort_vcf_table(view_variants(vcf_data_interface()), input$interface_sort_variants, input$interface_add_variant_ids)
+  })
+  
+  # confirmation message for sorting variants
+  output$sort_variants_confirmation <- renderText({
+    req(vcf_sorted_table())
+    paste("Selected parameters are", input$interface_sort_variants, "and", input$interface_add_variant_ids, ".",
+    "<font color =\"##228b22\"><i>
+    <br> The VCF file is sorted. You can proceed with the download! <br>
+    </i></font>")
+    }
+  )
+  
+  # download button for VCF file with sorted variants and added ids
+  output$download_interface_sorted_variants <- downloadHandler(
+    filename = function() {
+      paste0(input$download_interface_sorted_variants_filename, ".vcf.gz")
+    },
+    content = function(file) {
+      write.vcf(create_vcf_from_variant_table(vcf_sorted_table(), vcf_data_interface()@meta), file = file)
+    }
+  )
+  
+  
+  
+  ## update contig selector for site filter submodule in interface module
+  observeEvent(vcf_data_interface(), {
+    updateSelectInput(session, "interface_contig_filter", choices = unique(vcf_data_interface()@fix[,"CHROM"]))
+  })
+  
+  # filter variants based on the input contigs, input positional range. And get variants table
+  vcf_site_filtered_table <- reactive({
+    req(vcf_data_interface())
+    filter_vcf_by_site_table(view_variants(vcf_data_interface()), input$interface_contig_filter, as.numeric(input$interface_pos_filter_start),as.numeric(input$interface_pos_filter_end))
+  })
+  
+  # confirmation message for filtering variants based on variant site
+  output$filter_variants_by_site_confirmation <- renderText({
+    req(vcf_site_filtered_table(), input$interface_contig_filter, input$interface_pos_filter_start, input$interface_pos_filter_end)
+    paste("Selected genomic region(s) is (are)", input$interface_contig_filter, ":", input$interface_pos_filter_start, "-", input$interface_pos_filter_end, 
+    "<font color =\"#228b22\"><i>
+    <br> The VCF file is filtered for selected sites. You can proceed with the download! <br>
+    </i></font>")
+    }
+  )
+  
+  # download button for VCF file with site filtered variants
+  output$download_interface_filtered_variants_site <- downloadHandler(
+    filename = function() {
+      paste0(input$download_interface_filtered_variants_site_filename, ".vcf.gz")
+    },
+    content = function(file) {
+      write.vcf(create_vcf_from_variant_table(vcf_site_filtered_table(), vcf_data_interface()@meta), file = file)
+    }
+  )
+  
+  
+  
+  ## update FILTER column selector for quality filter submodule in interface module
+  observeEvent(vcf_data_interface(), {
+    updateSelectInput(session, "interface_quality_filter", choices = unique(vcf_data_interface()@fix[,"FILTER"]))
+  })
+  
+  # filter variants based on FILTER and QUAL columns. And get variants table
+  vcf_quality_filtered_table <- reactive({
+    req(vcf_data_interface())
+    filter_vcf_by_quality_table(view_variants(vcf_data_interface()), input$interface_quality_filter, as.numeric(input$interface_qual_filter_start),as.numeric(input$interface_qual_filter_end))
+  })
+  
+  # confirmation message for filtering variants based on quality
+  output$filter_variants_by_quality_confirmation <- renderText({
+    req(vcf_quality_filtered_table(), input$interface_quality_filter, input$interface_qual_filter_start, input$interface_qual_filter_end)
+    paste("Selected quality metrics are ", input$interface_quality_filter, ",", input$interface_qual_filter_start, ", and", input$interface_qual_filter_end, ".",
+    "<font color =\"##228b22\"><i>
+    <br> The VCF file is filtered for quality. You can proceed with the download! <br>
+    </i></font>")
+  }
+  )
+  
+  
+  # download button for VCF file with quality filtered variants
+  output$download_interface_filtered_variants_quality <- downloadHandler(
+    filename = function() {
+      paste0(input$download_interface_filtered_variants_quality_filename, ".vcf.gz")
+    },
+    content = function(file) {
+      write.vcf(create_vcf_from_variant_table(vcf_quality_filtered_table(), vcf_data_interface()@meta), file = file)
+    }
+  )
+  
+  
+  
+  
+  # filter variants based on variant type. And get variants table
+  vcf_type_filtered_table <- reactive({
+    req(vcf_data_interface())
+    filter_vcf_by_variant_type_table(view_variants(vcf_data_interface()), input$interface_variant_type_filter)
+  })
+  
+  # confirmation message for filtering variants based on variant type
+  output$filter_variants_by_variant_type_confirmation <- renderText({
+    req(vcf_type_filtered_table(), input$interface_variant_type_filter)
+    paste("Selected variant type(s) is (are)", unlist(input$interface_variant_type_filter), ".", 
+          "<font color =\"#228b22\"><i>
+    <br>The VCF file is filtered for variant type. You can proceed with the download! <br>
+    </i></font>")
+    
+  }
+  )
+  
+  
+  # download button for VCF file with variant type filtered variants
+  output$download_interface_filtered_variants_type <- downloadHandler(
+    filename = function() {
+      paste0(input$download_interface_filtered_variants_type_filename, ".vcf.gz")
+    },
+    content = function(file) {
+      write.vcf(create_vcf_from_variant_table(vcf_type_filtered_table(), vcf_data_interface()@meta), file = file)
+    }
+  )
+  
+  
+  
+  # Warn user about the compute resources for search based filtering
+  output$warning_search_vcf <- renderText({
+    "<font color =\"#e2725b\"><i>
+    Kindly note that search module requires ample computational resources for proper functioning. 
+    </i></font>"}
+  )
+  
+  # Search output: Combine vcf@FIX and vcf@GT into single df and get a reactable object
+  output$vcf_interface_table_view <- renderReactable({
+    reactable(vcf_interface_table(), 
+              filterable = TRUE,
+              #searchable = TRUE,
+              minRows = 10, 
+              paginationType = "jump", 
+              resizable = TRUE, 
+              wrap = FALSE, 
+              bordered = TRUE,
+              striped = TRUE,
+              highlight = TRUE,
+              theme = reactableTheme(
+                borderColor = "#dfe2e5",
+                stripedColor = "#f6f8fa",
+                highlightColor = "#f0f5f9",
+                style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
+                searchInputStyle = list(width = "100%"),
+                headerStyle = list(
+                  "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+                  "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+                  borderColor = "#555"
+                )
+                )
+              )}
+    )
+  
+  
+  
+  # # filter variants based on Minor Allele Frequency. And get variants table
+  # vcf_maf_filtered_table <- reactive({
+  #   req(vcf_data_interface(), input$interface_maf_filter_start, input$interface_maf_filter_end)
+  #   filter_vcf_by_maf_table(vcf_data_interface(), as.numeric(input$interface_maf_filter_start),as.numeric(input$interface_maf_filter_end))
+  # })
+  # 
+  # # confirmation message for filtering variants based on quality
+  # output$filter_variants_by_maf_confirmation <- renderText({
+  #   req(vcf_maf_filtered_table(), input$interface_maf_filter_start, input$interface_maf_filter_end)
+  #   "<font color =\"#e2725b\"><i>
+  #   The VCF file is filtered for Minor Allele Frequency. You can proceed with the download!
+  #   </i></font>"
+  # }
+  # )
+  # 
+  # 
+  # # download button for VCF file with quality filtered variants
+  # output$download_interface_filtered_variants_maf <- downloadHandler(
+  #   filename = function() {
+  #     paste0(input$download_interface_filtered_variants_maf_filename, ".vcf.gz")
+  #   },
+  #   content = function(file) {
+  #     write.vcf(create_vcf_from_variant_table(vcf_maf_filtered_table(), vcf_data_interface()@meta), file = file)
+  #   }
+  # )
+  
+  # Add functionalities to next/previous buttons in compare tab
+  observeEvent(input$interface_upload_previous, 
+               {updateNavbarPage(session, "navbar", "Home")}
+  )
+  
+  observeEvent(input$interface_upload_next, 
+               {updateNavlistPanel(session, "Interface", "interface_metadata")}
+  )
+  
+  observeEvent(input$interface_metadata_previous, 
+               {updateNavlistPanel(session, "Interface", "upload_for_interface")}
+  )
+  
+  observeEvent(input$interface_metadata_next, 
+               {updateNavlistPanel(session, "Interface", "sort_variants")}
+  )
+  
+  observeEvent(input$interface_sort_previous, 
+               {updateNavlistPanel(session, "Interface", "interface_metadata")}
+  )
+  
+  observeEvent(input$interface_sort_next, 
+               {updateNavlistPanel(session, "Interface", "position_based_filtering")}
+  )
+  
+  observeEvent(input$interface_filter_site_previous, 
+               {updateNavlistPanel(session, "Interface", "sort_variants")}
+  )
+  
+  observeEvent(input$interface_filter_site_next, 
+               {updateNavlistPanel(session, "Interface", "quality_filtering")}
+  )
+  
+  observeEvent(input$interface_filter_quality_previous, 
+               {updateNavlistPanel(session, "Interface", "position_based_filtering")}
+  )
+  
+  observeEvent(input$interface_filter_quality_next, 
+               {updateNavlistPanel(session, "Interface", "type_based_filtering")}
+  )
+  
+  observeEvent(input$interface_filter_type_previous, 
+               {updateNavlistPanel(session, "Interface", "quality_filtering")}
+  )
+  
+  observeEvent(input$interface_filter_type_next, 
+               {updateNavlistPanel(session, "Interface", "search_based_filtering")}
+  )
+  
+  observeEvent(input$interface_search_previous, 
+               {updateNavlistPanel(session, "Interface", "type_based_filtering")}
+  )
+  
+  observeEvent(input$interface_search_next, 
+               {updateNavbarPage(session, "navbar", "Home")}
+  )
+  
+  ##############################
+  # Contents for View Csv Files
+  
+  
+  valid_input_file_view_csv <- reactiveVal()
+  
+  # Validate the input file as .csv 
+  observeEvent(req(input$upload_csv_for_view),
+               # check if last 4 characters of the filepath are ".csv"
+               if(substr(input$upload_csv_for_view$name, start = nchar(input$upload_csv_for_view$name) - 3, stop = nchar(input$upload_csv_for_view$name)) == ".csv"){
+                 valid_input_file_view_csv(TRUE)
+                 output$file_warning_message_view_csv <- renderText("<font color =\"#e2725b\"><i> </i></font>")
+               } 
+               else{
+                 valid_input_file_view_csv(FALSE)
+                 output$file_warning_message_view_csv <- renderText("<font color =\"#e2725b\"><i> Invalid file uploaded. Only \".csv\" and \".tsv\" are permitted. </i></font>")
+               }
+  )
+  
+  # read the csv file as a reactive object
+  view_csv_data <- reactive({
+    req(input$upload_csv_for_view, valid_input_file_view_csv())
+    # using vcfr library to read vcf files
+    read.csv(input$upload_csv_for_view$datapath)
+  })
+  
+  
+  # Give note about file upload size
+  output$upload_size_warning_view_csv <- renderText({"
+  <i>
+    Note: By default, the upload size is limited to 1GB. To work with larger files, please refer to the 
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    </i>"
+  })
+  
+  
+  # print wait messsage while reading csv file
+  output$wait_message_view_csv <- renderText({
+    "Please wait after upload. The results will appear below soon. Kindly note that this module requires ample computational resources for large files."})
+  
+  
+  # View CSV output: Display a reactable object
+  output$view_csv_table <- renderReactable({
+    reactable(view_csv_data(), 
+              filterable = TRUE,
+              #searchable = TRUE,
+              minRows = 10, 
+              paginationType = "jump", 
+              resizable = TRUE, 
+              wrap = FALSE, 
+              bordered = TRUE,
+              striped = TRUE,
+              highlight = TRUE,
+              theme = reactableTheme(
+                borderColor = "#dfe2e5",
+                stripedColor = "#f6f8fa",
+                highlightColor = "#f0f5f9",
+                style = list(fontFamily = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"),
+                searchInputStyle = list(width = "100%"),
+                headerStyle = list(
+                  "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 96%)"),
+                  "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 96%)"),
+                  borderColor = "#555"
+                )
+              )
+    )}
+  )
+  
+ 
+  # Add functionalities to next/previous buttons in view_csv tab
+  observeEvent(input$view_csv_files_guide_next, 
+               {updateNavbarPage(session, "navbar", "Home")}
+  )
   
   ##############################
   # Contents for Quick Guide
   
   output$quick_quide_intro <- renderText({"
-    SCI-VCF has two major workflows:
+    SCI-VCF has four workflows:
     <br>
     <p>
     1) Summarize: The summary of a VCF file is generated by classifying variants and 
     summing up unique entries in each category.<br>
     2) Compare: Unique and common variants in two VCF files are identified
     by using the first eight mandatory columns as two-dimensional heterogeneous tabular datasets.<br>
+    3) Interface: Contents of a VCF file can be viewed, searched, sorted, identified, and filtered. <br>
+    4) View CSV Files: Contents of a CSV file can be viewed, searched, sorted, identified, and filtered.
     </p>
     <h5>Summarize Submodules</h5>
     <p>
@@ -709,12 +1126,29 @@ server <- function(input, output, session) {
     <li>Download Variants: Extract the common and unique variants as a tabular dataset for further analysis.</li>
     </p>
     
+    <h5>Interface Submodules</h5>
+    <p>
+    <li>Upload VCF: Click the browse button and upload a VCF file.</li>
+    <li>Meta-Information: View, search, and download the meta-information present in the uploaded file.</li>
+    <li>Sort Variants: Sort variants in ascending order of CHROM, POS, REF, and ALT columns. Unique variant IDs can also be added in CHROM_POS_REF_ALT format.</li>
+    <li>Variant Site Filtering: Filter variants from a particular genomic region.</li>
+    <li>Variant Quality Filtering: Filter variants based on the FILTER and QUAL columns.</li>
+    <li>Variant Type Filtering: Filter SNPs and INDELs separately.</li>
+    <li>Search-based Filtering: View the contents of a VCF file and filter based on keyword search.</li>
+    </p>
+    
     <font color =\"#e2725b\"><i>
     Note: To read the full documentation and know more about SCI-VCF, visit 
-    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/\">here </a>.
+    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/\">here</a>.
     </i></font>
     
   "})
+  
+  
+  # Add functionalities to next/previous buttons in quick guide tab
+  observeEvent(input$quick_guide_next, 
+               {updateNavbarPage(session, "navbar", "Home")}
+  )
   
   ##############################
   # Contents for Contact page
@@ -760,6 +1194,18 @@ server <- function(input, output, session) {
     )
   })
   
+  # Cite the paper
+  
+  output$cite <- renderText("<font>
+  Venkatesh Kamaraj, and Himanshu Sinha. \"SCI-VCF: A cross-platform GUI solution to Summarise, Compare, Inspect, and Visualise the Variant Call Format,\" 2024. https://doi.org/10.1101/2023.08.09.552664
+    <a href=\"https://doi.org/10.1101/2023.08.09.552664\"></a>
+    </font>") 
+  
+  # Add functionalities to next/previous buttons in contact tab
+  observeEvent(input$contact_next, 
+               {updateNavbarPage(session, "navbar", "Home")}
+  )
+  
   ##################################
   # Footer
   output$footer_message <- renderText({
@@ -767,8 +1213,8 @@ server <- function(input, output, session) {
     <br style = \"line-height:10;\">
     <p style = \"text-align: center; padding: 10px; border: 0.5px #808080; background: #f5f5f5;\">
     <font color =\"#000000;\" size = \"1\"><i>
-     &#169; <a target=\"_blank\" href=\"https://ibse.iitm.ac.in/\"> IBSE - IITM </a>.  
-     Designed and Developed by <a target=\"_blank\" href=\"https://venkatk89.github.io/\">Venkatesh K</a>.
+     &#169; <a href=\"https://ibse.iitm.ac.in/\"> IBSE - IITM </a>.  
+     Designed and Developed by <a href=\"https://venkatk89.github.io/\">Venkatesh K</a>.
     </i></font>
     </p>"
   })
