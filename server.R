@@ -106,7 +106,7 @@ server <- function(input, output, session) {
   output$upload_size_warning_summarize <- renderText({"
   <i>
     Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -174,7 +174,7 @@ server <- function(input, output, session) {
     req(vcf_summaries())
   "<font color =\"#e2725b\"><i>
     To change the default file processing settings, please refer to the 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i></font>"}
   )
   
@@ -445,7 +445,7 @@ server <- function(input, output, session) {
   output$upload_size_warning_compare <- renderText({"
     <i>
     Note: By default, the upload size for each file is limited to 1GB. To work with larger VCFs, please refer to the 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -721,7 +721,7 @@ server <- function(input, output, session) {
   output$upload_size_warning_interface <- renderText({"
   <i>
     Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -1046,7 +1046,7 @@ server <- function(input, output, session) {
   output$upload_size_warning_view_csv <- renderText({"
   <i>
     Note: By default, the upload size is limited to 1GB. To work with larger files, please refer to the 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
   
@@ -1139,7 +1139,7 @@ server <- function(input, output, session) {
     
     <font color =\"#e2725b\"><i>
     Note: To read the full documentation and know more about SCI-VCF, visit 
-    <a href=\"https://himanshulab.github.io/SCI-VCF-docs/\">here</a>.
+    <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/\">here</a>.
     </i></font>
     
   "})
@@ -1160,7 +1160,8 @@ server <- function(input, output, session) {
          "Github",
          style = "fontweight:600"
          ),
-      href = "https://github.com/HimanshuLab/SCI-VCF"
+      href = "https://github.com/HimanshuLab/SCI-VCF", 
+      target="_blank"
     )
   })
   
@@ -1180,7 +1181,8 @@ server <- function(input, output, session) {
       h6(icon("building-user"),
          "Documentation",
          style = "fontweight:600"),
-      href = "https://himanshulab.github.io/SCI-VCF-docs/"
+      href = "https://himanshulab.github.io/SCI-VCF-docs/", 
+      target="_blank"
     )
   })
   
@@ -1190,7 +1192,8 @@ server <- function(input, output, session) {
       h6(icon("building-user"),
          "IBSE",
          style = "fontweight:600"),
-      href = "https://ibse.iitm.ac.in/"
+      href = "https://ibse.iitm.ac.in/", 
+      target="_blank"
     )
   })
   
@@ -1198,7 +1201,7 @@ server <- function(input, output, session) {
   
   output$cite <- renderText("<font>
   Venkatesh Kamaraj, and Himanshu Sinha. \"SCI-VCF: A cross-platform GUI solution to Summarise, Compare, Inspect, and Visualise the Variant Call Format,\" 2024. https://doi.org/10.1101/2023.08.09.552664
-    <a href=\"https://doi.org/10.1101/2023.08.09.552664\"></a>
+    <a target=\"_blank\" href=\"https://doi.org/10.1101/2023.08.09.552664\"></a>
     </font>") 
   
   # Add functionalities to next/previous buttons in contact tab
@@ -1213,8 +1216,8 @@ server <- function(input, output, session) {
     <br style = \"line-height:10;\">
     <p style = \"text-align: center; padding: 10px; border: 0.5px #808080; background: #f5f5f5;\">
     <font color =\"#000000;\" size = \"1\"><i>
-     &#169; <a href=\"https://ibse.iitm.ac.in/\"> IBSE - IITM </a>.  
-     Designed and Developed by <a href=\"https://venkatk89.github.io/\">Venkatesh K</a>.
+     &#169; <a target=\"_blank\" href=\"https://ibse.iitm.ac.in/\"> IBSE - IITM </a>.  
+     Designed and Developed by <a target=\"_blank\" href=\"https://venkatk89.github.io/\">Venkatesh K</a>.
     </i></font>
     </p>"
   })
