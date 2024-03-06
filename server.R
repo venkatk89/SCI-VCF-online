@@ -105,7 +105,7 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_summarize <- renderText({"
   <i>
-    Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
+    Note: By default, the upload size is limited to 10 MB. To work with larger VCFs, please refer to the 
     <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
@@ -444,7 +444,7 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_compare <- renderText({"
     <i>
-    Note: By default, the upload size for each file is limited to 1GB. To work with larger VCFs, please refer to the 
+    Note: By default, the upload size for each file is limited to 10MB. To work with larger VCFs, please refer to the 
     <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
@@ -720,7 +720,7 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_interface <- renderText({"
   <i>
-    Note: By default, the upload size is limited to 1GB. To work with larger VCFs, please refer to the 
+    Note: By default, the upload size is limited to 10 MB. To work with larger VCFs, please refer to the 
     <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
@@ -1045,7 +1045,7 @@ server <- function(input, output, session) {
   # Give note about file upload size
   output$upload_size_warning_view_csv <- renderText({"
   <i>
-    Note: By default, the upload size is limited to 1GB. To work with larger files, please refer to the 
+    Note: By default, the upload size is limited to 1 MB. To work with larger files, please refer to the 
     <a target=\"_blank\" href=\"https://himanshulab.github.io/SCI-VCF-docs/faq/#customization\">FAQ </a> section in the documentation.
     </i>"
   })
