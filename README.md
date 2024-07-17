@@ -14,4 +14,4 @@ Detailed Documentation: [Link](https://himanshulab.github.io/SCI-VCF-docs/)
 Local Installation Guidelines: [Link](https://himanshulab.github.io/SCI-VCF-docs/installation/)
 
 
-BioRxiv paper: [Link](https://doi.org/10.1101/2023.08.09.552664)
+Research paper: [Link](https://doi.org/10.1093/nargab/lqae083)
